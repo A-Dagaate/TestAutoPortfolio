@@ -1,0 +1,295 @@
+@page "/"
+@inject IJSRuntime JS
+
+<PageTitle>Charles Osei Agyeman | Test Automation Engineer</PageTitle>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <p class="hero-greeting">// Hi, I'm</p>
+        <h1 class="hero-name">Charles Osei Agyeman</h1>
+        <h2 class="hero-title">Test Automation Engineer</h2>
+        <p class="hero-tagline">
+            Building robust, scalable test frameworks with <span class="accent">Playwright</span>,
+            <span class="accent">SpecFlow</span>, and <span class="accent">NUnit</span> —
+            so teams can ship quality software with confidence.
+        </p>
+        <div class="hero-cta">
+            <button class="btn-primary" @onclick='() => ScrollTo("projects")'>View Projects</button>
+            <button class="btn-secondary" @onclick='() => ScrollTo("contact")'>Contact Me</button>
+        </div>
+        <div class="hero-stack">
+            @foreach (var tech in heroStack)
+            {
+                <span class="stack-badge">@tech</span>
+            }
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <div class="code-window">
+            <div class="window-bar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="window-title">LoginTests.cs</span>
+            </div>
+            <pre class="code-snippet"><code><span class="cm">// BDD scenario mapped to Playwright</span>
+<span class="kw">[Test]</span>
+<span class="kw">public async</span> Task
+  ValidLogin_RedirectsToDashboard()
+{
+  <span class="cm">// Arrange</span>
+  <span class="kw">var</span> page = <span class="kw">await</span>
+    _browser.NewPageAsync();
+  <span class="kw">var</span> login =
+    <span class="kw">new</span> <span class="cls">LoginPage</span>(page);
+
+  <span class="cm">// Act</span>
+  <span class="kw">await</span> login.LoginAsync(
+    <span class="str">"user@test.com"</span>,
+    <span class="str">"P@ssw0rd"</span>);
+
+  <span class="cm">// Assert</span>
+  <span class="kw">await</span> Expect(page)
+    .ToHaveTitleAsync(
+      <span class="str">"Dashboard"</span>);
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════ ABOUT ═══════════════════════ -->
+<section class="about" id="about">
+    <div class="section-container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div class="about-photo">
+                <div class="photo-frame">
+                    <img src="images/profile.jpeg" alt="Charles Osei Agyeman" class="profile-img" />
+                </div>
+                <div class="photo-badge">
+                    <span class="badge-dot"></span>
+                    Available for work
+                </div>
+            </div>
+            <div class="about-text">
+                <p>
+                    I'm a passionate <strong>Test Automation Engineer</strong> focused on building
+                    end-to-end frameworks that scale with the product. I design automation solutions
+                    using <strong>Page Object Model</strong>, <strong>Behavior-Driven Development</strong>,
+                    and <strong>data-driven testing</strong> strategies.
+                </p>
+                <p>
+                    My work spans <strong>UI automation</strong> with Playwright,
+                    <strong>API testing</strong>, and integrating test suites into
+                    <strong>CI/CD pipelines</strong> — turning quality into a continuous,
+                    measurable process rather than an afterthought.
+                </p>
+                <div class="about-stats">
+                    @foreach (var stat in stats)
+                    {
+                        <div class="stat-card">
+                            <span class="stat-value">@stat.Value</span>
+                            <span class="stat-label">@stat.Label</span>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="about-focus">
+                <h3>Focus Areas</h3>
+                @foreach (var focus in focusAreas)
+                {
+                    <div class="focus-item">
+                        <span class="focus-icon">@focus.Icon</span>
+                        <div>
+                            <strong>@focus.Title</strong>
+                            <p>@focus.Description</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════ SKILLS ═══════════════════════ -->
+<section class="skills" id="skills">
+    <div class="section-container">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills-grid">
+            @foreach (var category in skillCategories)
+            {
+                <div class="skill-category">
+                    <h3 class="skill-category-title">@category.Name</h3>
+                    <div class="skill-tags">
+                        @foreach (var skill in category.Skills)
+                        {
+                            <span class="skill-tag @category.ColorClass">@skill</span>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════ PROJECTS ═══════════════════════ -->
+<section class="projects" id="projects">
+    <div class="section-container">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+            @foreach (var project in projects)
+            {
+                <div class="project-card @(project.Featured ? "featured" : "")">
+                    @if (project.Featured)
+                    {
+                        <span class="featured-badge">Featured</span>
+                    }
+                    <div class="project-header">
+                        <span class="project-icon">@project.Icon</span>
+                        <h3 class="project-title">@project.Title</h3>
+                    </div>
+                    <p class="project-description">@project.Description</p>
+                    <div class="project-highlights">
+                        @foreach (var highlight in project.Highlights)
+                        {
+                            <span class="highlight">✓ @highlight</span>
+                        }
+                    </div>
+                    <div class="project-stack">
+                        @foreach (var tech in project.Stack)
+                        {
+                            <span class="tech-badge">@tech</span>
+                        }
+                    </div>
+                    <div class="project-links">
+                        <a href="@project.GithubUrl" target="_blank" class="project-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            View on GitHub
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════ CONTACT ═══════════════════════ -->
+<section class="contact" id="contact">
+    <div class="section-container">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="contact-subtitle">
+            Open to new opportunities and collaborations. Whether you have a project in mind
+            or want to talk quality strategies — feel free to reach out.
+        </p>
+        <div class="contact-cards">
+            @foreach (var link in contactLinks)
+            {
+                <a href="@link.Url" target="_blank" class="contact-card">
+                    <span class="contact-icon">@link.Icon</span>
+                    <span class="contact-label">@link.Label</span>
+                    <span class="contact-value">@link.Value</span>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>Built with <span class="accent">Blazor WebAssembly</span> + C# &nbsp;·&nbsp; Charles Osei Agyeman &copy; 2026</p>
+</footer>
+
+@code {
+    private string[] heroStack = { "C#", "Playwright", "NUnit", "xUnit", "SpecFlow", "CI/CD" };
+
+    private List<(string Value, string Label)> stats = new()
+    {
+        ("50+", "Test Suites Built"),
+        ("95%", "Avg Code Coverage"),
+        ("3x", "Faster Release Cycles"),
+    };
+
+    private List<(string Icon, string Title, string Description)> focusAreas = new()
+    {
+        ("🎭", "End-to-End Testing",    "Cross-browser UI automation with Playwright using the Page Object Model pattern"),
+        ("📋", "BDD with SpecFlow",     "Gherkin feature files that bridge communication between business and dev teams"),
+        ("⚡", "CI/CD Integration",     "Automated pipelines with GitHub Actions and Azure DevOps for continuous testing"),
+        ("🔌", "API Testing",           "REST API validation with NUnit and HttpClient for comprehensive scenario coverage"),
+    };
+
+    private List<SkillCategory> skillCategories = new()
+    {
+        new("Test Frameworks",       "cyan",   new[] { "Playwright",        "NUnit",          "xUnit",         "MSTest",    "SpecFlow / BDD" }),
+        new("Languages",             "purple", new[] { "C#",                "SQL",            "JavaScript",    "PowerShell","YAML"           }),
+        new("Patterns & Practices",  "green",  new[] { "Page Object Model", "AAA Pattern",    "Data-Driven",   "BDD / Gherkin", "Test Pyramid" }),
+        new("CI/CD & DevOps",        "orange", new[] { "GitHub Actions",    "Azure DevOps",   "Docker",        "Git",       "Jenkins"        }),
+        new("Testing Types",         "blue",   new[] { "E2E Testing",       "API Testing",    "Unit Testing",  "Integration Testing", "Regression" }),
+        new("Tools",                 "pink",   new[] { "Postman",           "Allure Reports", "Azure Test Plans", "Jira",   "Visual Studio"  }),
+    };
+
+    private List<Project> projects = new()
+    {
+        new Project(
+            "E2E Playwright Test Suite",
+            "Comprehensive end-to-end framework built with Playwright and C#, implementing the Page Object Model for maintainable UI automation across Chrome, Firefox, and WebKit.",
+            new[] { "Page Object Model architecture", "Cross-browser parallel execution", "Allure HTML reporting", "GitHub Actions CI integration" },
+            new[] { "Playwright", "C#", "NUnit", "GitHub Actions" },
+            "https://github.com/A-Dagaate",
+            true,
+            "🎭"
+        ),
+        new Project(
+            "BDD SpecFlow Framework",
+            "Behavior-driven development framework using SpecFlow with Gherkin feature files. Enables non-technical stakeholders to define acceptance criteria that directly drive automated tests.",
+            new[] { "Gherkin feature file authoring", "Step definition binding", "Hooks, tags & test filtering", "Living documentation output" },
+            new[] { "SpecFlow", "C#", "NUnit", "Azure DevOps" },
+            "https://github.com/A-Dagaate",
+            true,
+            "📋"
+        ),
+        new Project(
+            "REST API Automation Suite",
+            "API test suite covering authentication flows, CRUD operations, and error scenarios using data-driven test cases loaded from JSON fixtures with full response schema validation.",
+            new[] { "Data-driven JSON fixtures", "Auth flow coverage", "Schema validation", "Parallel test runs" },
+            new[] { "NUnit", "C#", "HttpClient", "xUnit" },
+            "https://github.com/A-Dagaate",
+            false,
+            "🔌"
+        ),
+        new Project(
+            "CI/CD Quality Pipeline",
+            "GitHub Actions workflow that runs the full regression suite on pull requests, generates Allure test reports, enforces quality gates, and detects flaky tests automatically.",
+            new[] { "PR-gated quality checks", "Allure report publishing", "Flaky test detection", "Configurable quality thresholds" },
+            new[] { "GitHub Actions", "Docker", "Allure", "YAML" },
+            "https://github.com/A-Dagaate",
+            false,
+            "⚡"
+        ),
+    };
+
+    private List<ContactLink> contactLinks = new()
+    {
+        new("📧", "Email",    "ze2@hotmail.com",        "mailto:ze2@hotmail.com"),
+        new("💼", "LinkedIn", "linkedin.com/in/charles-agyeman-14773014", "https://www.linkedin.com/in/charles-agyeman-14773014/"),
+        new("🐙", "GitHub",   "github.com/A-Dagaate",          "https://github.com/A-Dagaate"),
+    };
+
+    private async Task ScrollTo(string id) =>
+        await JS.InvokeVoidAsync("scrollToSection", id);
+
+    record SkillCategory(string Name, string ColorClass, string[] Skills);
+
+    record Project(
+        string   Title,
+        string   Description,
+        string[] Highlights,
+        string[] Stack,
+        string   GithubUrl,
+        bool     Featured,
+        string   Icon);
+
+    record ContactLink(string Icon, string Label, string Value, string Url);
+}

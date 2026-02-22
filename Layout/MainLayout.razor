@@ -1,0 +1,39 @@
+@inherits LayoutComponentBase
+@inject IJSRuntime JS
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo" @onclick='() => ScrollTo("hero")'>
+            <span class="logo-bracket">&lt;</span>
+            <span class="logo-text">TAE</span>
+            <span class="logo-bracket">/&gt;</span>
+        </div>
+        <div class="nav-links @(menuOpen ? "open" : "")">
+            <a @onclick='() => ScrollTo("about")' @onclick:preventDefault>About</a>
+            <a @onclick='() => ScrollTo("skills")' @onclick:preventDefault>Skills</a>
+            <a @onclick='() => ScrollTo("projects")' @onclick:preventDefault>Projects</a>
+            <a @onclick='() => ScrollTo("contact")' @onclick:preventDefault>Contact</a>
+        </div>
+        <button class="nav-toggle" @onclick="ToggleMenu" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+
+<main>
+    @Body
+</main>
+
+@code {
+    private bool menuOpen = false;
+
+    private async Task ScrollTo(string id)
+    {
+        menuOpen = false;
+        await JS.InvokeVoidAsync("scrollToSection", id);
+    }
+
+    private void ToggleMenu() => menuOpen = !menuOpen;
+}
